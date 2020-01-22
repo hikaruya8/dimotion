@@ -16,35 +16,41 @@ def make_datapath_list(root_path):
     """
 
     # 動画を画像データにしたフォルダへのファイルパスリスト
-    video_list = list()
+    video_list = []
 
     # root_pathにある、クラスの種類とパスを取得
-    class_list = os.listdir(path=root_path)
+    # class_list = os.listdir(path=root_path)
 
-    # 各クラスの動画ファイルを画像化したフォルダへのパスを取得
-    for class_list_i in (class_list):  # クラスごとのループ
+    # # 各クラスの動画ファイルを画像化したフォルダへのパスを取得
+    # for i, class_list_i in enumerate(class_list):  # クラスごとのループ
 
 
-        # クラスのフォルダへのパスを取得
-        class_path = os.path.join(root_path, class_list_i)
+        # # クラスのフォルダへのパスを取得
+        # class_path = os.path.join(root_path, class_list_i)
 
-        # 各クラスのフォルダ内の画像フォルダを取得するループ
-        for file_name in os.listdir(class_path):
+    # 各クラスのフォルダ内の画像フォルダを取得するループ
+    for file_name in os.listdir(root_path):
 
-            # ファイル名と拡張子に分割
-            name, ext = os.path.splitext(file_name)
+        # ファイル名と拡張子に分割
+        name, ext = os.path.splitext(file_name)
 
-            # フォルダでないmp4ファイルは無視
-            if ext == '.mp4':
-                continue
+        # フォルダでないmp4ファイルは無視
+        if ext == '.mp4' or name.startswith('._'):
+            continue
 
-            # 動画ファイルを画像に分割して保存したフォルダのパスを取得
-            video_img_directory_path = os.path.join(class_path, name)
+        # 動画ファイルを画像に分割して保存したフォルダのパスを取得
+        video_img_directory_path = os.path.join(root_path, name)
 
-            # vieo_listに追加
-            video_list.append(video_img_directory_path)
+        # vieo_listに追加
+        video_list.append(video_img_directory_path)
 
     return video_list
+
+# 動作確認
+root_path = './MELD/MELD.Raw/test_splits/'
+video_list = make_datapath_list(root_path)
+print(video_list[0])
+print(video_list[1])
 
 
 # class VideoTransform():
@@ -186,8 +192,3 @@ def make_datapath_list(root_path):
 
 
 
-# 動作確認
-root_path = './MELD/MELD.Raw/train_splits/'
-video_list = make_datapath_list(root_path)
-print(video_list[0])
-print(video_list[1])
