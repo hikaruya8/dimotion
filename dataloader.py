@@ -167,32 +167,31 @@ class Stack():
         # unsqueeze(dim=0)はあらたにframes用の次元を作成しています
 
 
-# # Kinetics-400のラベル名をIDに変換する辞書と、逆にIDをラベル名に変換する辞書を用意
+# MELDのラベル名をIDに変換する辞書と、逆にIDをラベル名に変換する辞書を用意
+
+def get_label_id_dictionary(label_dicitionary_path):
+    label_id_dict = {}
+    id_label_dict = {}
+
+    with open(label_dicitionary_path, encoding="utf-8_sig") as f:
+
+        # 読み込む
+        reader = csv.DictReader(f, delimiter=",", quotechar='"')
+
+        # 1行ずつ読み込み、辞書型変数に追加します
+        for row in reader:
+            label_id_dict.setdefault(
+                row["class_label"], int(row["label_id"])-1)
+            id_label_dict.setdefault(
+                int(row["label_id"])-1, row["class_label"])
+
+    return label_id_dict,  id_label_dict
 
 
-# def get_label_id_dictionary(label_dicitionary_path='./video_download/kinetics_400_label_dicitionary.csv'):
-#     label_id_dict = {}
-#     id_label_dict = {}
-
-#     with open(label_dicitionary_path, encoding="utf-8_sig") as f:
-
-#         # 読み込む
-#         reader = csv.DictReader(f, delimiter=",", quotechar='"')
-
-#         # 1行ずつ読み込み、辞書型変数に追加します
-#         for row in reader:
-#             label_id_dict.setdefault(
-#                 row["class_label"], int(row["label_id"])-1)
-#             id_label_dict.setdefault(
-#                 int(row["label_id"])-1, row["class_label"])
-
-#     return label_id_dict,  id_label_dict
-
-
-# # 確認
-# label_dicitionary_path = './video_download/kinetics_400_label_dicitionary.csv'
-# label_id_dict, id_label_dict = get_label_id_dictionary(label_dicitionary_path)
-# label_id_dict
+# 確認
+label_dicitionary_path = './MELD/data/MELD/train_sent_emo.csv'
+label_id_dict, id_label_dict = get_label_id_dictionary(label_dicitionary_path)
+print(label_id_dict)
 
 
 
