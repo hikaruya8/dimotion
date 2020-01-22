@@ -194,6 +194,114 @@ label_id_dict, id_label_dict = get_label_id_dictionary(label_dicitionary_path)
 print(label_id_dict)
 
 
+# class VideoDataset(torch.utils.data.Dataset):
+#     """
+#     動画のDataset
+#     """
+
+#     def __init__(self, video_list, label_id_dict, num_segments, phase, transform, img_tmpl='image_{:05d}.jpg'):
+#         self.video_list = video_list  # 動画画像のフォルダへのパスリスト
+#         self.label_id_dict = label_id_dict  # ラベル名をidに変換する辞書型変数
+#         self.num_segments = num_segments  # 動画を何分割して使用するのかを決める
+#         self.phase = phase  # train or val
+#         self.transform = transform  # 前処理
+#         self.img_tmpl = img_tmpl  # 読み込みたい画像のファイル名のテンプレート
+
+#     def __len__(self):
+#         '''動画の数を返す'''
+#         return len(self.video_list)
+
+#     def __getitem__(self, index):
+#         '''
+#         前処理をした画像たちのデータとラベル、ラベルIDを取得
+#         '''
+#         imgs_transformed, label, label_id, dir_path = self.pull_item(index)
+#         return imgs_transformed, label, label_id, dir_path
+
+#     def pull_item(self, index):
+#         '''前処理をした画像たちのデータとラベル、ラベルIDを取得'''
+
+#         # 1. 画像たちをリストに読み込む
+#         dir_path = self.video_list[index]  # 画像が格納されたフォルダ
+#         indices = self._get_indices(dir_path)  # 読み込む画像idxを求める
+#         img_group = self._load_imgs(
+#             dir_path, self.img_tmpl, indices)  # リストに読み込む
+
+#         # 2. ラベルの取得し、idに変換する
+#         label = (dir_path.split('/')[3].split('/')[0])
+#         label_id = self.label_id_dict[label] # idを取得
+
+#         # 3. 前処理を実施
+#         imgs_transformed = self.transform(img_group, phase=self.phase)
+
+#         return imgs_transformed, label, label_id, dir_path
+
+#     def _load_imgs(self, dir_path, img_tmpl, indices):
+#         '''画像をまとめて読み込み、リスト化する関数'''
+#         img_group = []  # 画像を格納するリスト
+
+#         for idx in indices:
+#             # 画像のパスを取得
+#             file_path = os.path.join(dir_path, img_tmpl.format(idx))
+
+#             # 画像を読み込む
+#             img = Image.open(file_path).convert('RGB')
+
+#             # リストに追加
+#             img_group.append(img)
+#         return img_group
+
+#     def _get_indices(self, dir_path):
+#         """
+#         動画全体をself.num_segmentに分割した際に取得する動画のidxのリストを取得する
+#         """
+#         # 動画のフレーム数を求める
+#         file_list = os.listdir(path=dir_path)
+#         num_frames = len(file_list)
+
+#         # 動画の取得間隔幅を求める
+#         tick = (num_frames) / float(self.num_segments)
+#         # 250 / 16 = 15.625
+#         # 動画の取得間隔幅で取り出す際のidxをリストで求める
+#         indices = np.array([int(tick / 2.0 + tick * x)
+#                             for x in range(self.num_segments)])+1
+#         # 250frameで16frame抽出の場合
+#         # indices = [  8  24  40  55  71  86 102 118 133 149 165 180 196 211 227 243]
+
+#         return indices
+
+# # 動作確認
+
+# # vieo_listの作成
+# root_path = './data/kinetics_videos/'
+# video_list = make_datapath_list(root_path)
+
+# # 前処理の設定
+# resize, crop_size = 224, 224
+# mean, std = [104, 117, 123], [1, 1, 1]
+# video_transform = VideoTransform(resize, crop_size, mean, std)
+
+# # Datasetの作成
+# # num_segments は 動画を何分割して使用するのかを決める
+# val_dataset = VideoDataset(video_list, label_id_dict, num_segments=16,
+#                            phase="val", transform=video_transform, img_tmpl='image_{:05d}.jpg')
+
+# # データの取り出し例
+# # 出力は、imgs_transformed, label, label_id, dir_path
+# index = 0
+# print(val_dataset.__getitem__(index)[0].shape)  # 画像たちのテンソル
+# print(val_dataset.__getitem__(index)[1])  # ラベル名
+# print(val_dataset.__getitem__(index)[2])  # ラベルID
+# print(val_dataset.__getitem__(index)[3])  # 動画へのパス
 
 
+# # DataLoaderにします
+# batch_size = 8
+# val_dataloader = torch.utils.data.DataLoader(
+#     val_dataset, batch_size=batch_size, shuffle=False)
 
+# # 動作確認
+# batch_iterator = iter(val_dataloader)  # イテレータに変換
+# imgs_transformeds, labels, label_ids, dir_path = next(
+#     batch_iterator)  # 1番目の要素を取り出す
+# print(imgs_transformeds.shape)
