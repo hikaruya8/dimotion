@@ -2,8 +2,8 @@ import os
 import subprocess  # ターミナルで実行するコマンドを実行できる
 
 
-# 動画が保存されたフォルダ「MELD.Raw」にある、クラスの種類とパスを取得
-dir_path = './MELD/MELD.Raw/train_splits/'
+# 動画が保存された「MELD.Raw」内にある、train_splits, test_splits, dev_splitsそれぞれで実行
+dir_path = './MELD/MELD.Raw/dev_splits/'
 # class_list = os.listdir(path=dir_path)
 # print(class_list)
 
