@@ -47,45 +47,52 @@ def make_datapath_list(root_path):
     return video_list
 
 # 動作確認
-root_path = './MELD/MELD.Raw/test_splits/'
-video_list = make_datapath_list(root_path)
-print(video_list[0])
-print(video_list[1])
+# root_path = './MELD/MELD.Raw/test_splits/'
+# video_list = make_datapath_list(root_path)
+# print(video_list[0])
+# print(video_list[1])
 
 
-# class VideoTransform():
-#     """
-#     動画を画像にした画像ファイルの前処理クラス。学習時と推論時で異なる動作をします。
-#     動画を画像に分割しているため、分割された画像たちをまとめて前処理する点に注意してください。
-#     """
+class VideoTransform():
+    """
+    動画を画像にした画像ファイルの前処理クラス。学習時と推論時で異なる動作をします。
+    動画を画像に分割しているため、分割された画像たちをまとめて前処理する点に注意してください。
+    """
 
-#     def __init__(self, resize, crop_size, mean, std):
-#         self.data_transform = {
-#             'train': torchvision.transforms.Compose([
-#                 # DataAugumentation()  # 今回は省略
-#                 GroupResize(int(resize)),  # 画像をまとめてリサイズ　
-#                 GroupCenterCrop(crop_size),  # 画像をまとめてセンタークロップ
-#                 GroupToTensor(),  # データをPyTorchのテンソルに
-#                 GroupImgNormalize(mean, std),  # データを標準化
-#                 Stack()  # 複数画像をframes次元で結合させる
-#             ]),
-#             'val': torchvision.transforms.Compose([
-#                 GroupResize(int(resize)),  # 画像をまとめてリサイズ　
-#                 GroupCenterCrop(crop_size),  # 画像をまとめてセンタークロップ
-#                 GroupToTensor(),  # データをPyTorchのテンソルに
-#                 GroupImgNormalize(mean, std),  # データを標準化
-#                 Stack()  # 複数画像をframes次元で結合させる
-#             ])
-#         }
+    def __init__(self, resize, crop_size, mean, std):
+        self.data_transform = {
+            'train': torchvision.transforms.Compose([
+                # DataAugumentation()  # 今回は省略
+                GroupResize(int(resize)),  # 画像をまとめてリサイズ　
+                GroupCenterCrop(crop_size),  # 画像をまとめてセンタークロップ
+                GroupToTensor(),  # データをPyTorchのテンソルに
+                GroupImgNormalize(mean, std),  # データを標準化
+                Stack()  # 複数画像をframes次元で結合させる
+            ]),
+            'dev': torchvision.transforms.Compose([
+                GroupResize(int(resize)),  # 画像をまとめてリサイズ　
+                GroupCenterCrop(crop_size),  # 画像をまとめてセンタークロップ
+                GroupToTensor(),  # データをPyTorchのテンソルに
+                GroupImgNormalize(mean, std),  # データを標準化
+                Stack()  # 複数画像をframes次元で結合させる
+            ]),
+            'test': torchvision.transforms.Compose([
+                GroupResize(int(resize)),  # 画像をまとめてリサイズ　
+                GroupCenterCrop(crop_size),  # 画像をまとめてセンタークロップ
+                GroupToTensor(),  # データをPyTorchのテンソルに
+                GroupImgNormalize(mean, std),  # データを標準化
+                Stack()  # 複数画像をframes次元で結合させる
+            ])
+        }
 
-#     def __call__(self, img_group, phase):
-#         """
-#         Parameters
-#         ----------
-#         phase : 'train' or 'val'
-#             前処理のモードを指定。
-#         """
-#         return self.data_transform[phase](img_group)
+    def __call__(self, img_group, phase):
+        """
+        Parameters
+        ----------
+        phase : 'train' 'dev' or 'test'
+            前処理のモードを指定。
+        """
+        return self.data_transform[phase](img_group)
 
 
 #     # 前処理で使用するクラスたちの定義
