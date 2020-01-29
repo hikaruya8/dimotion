@@ -56,7 +56,7 @@ def make_datapath_list(root_path):
 class VideoTransform():
     """
     動画を画像にした画像ファイルの前処理クラス。学習時と推論時で異なる動作をします。
-    動画を画像に分割しているため、分割された画像たちをまとめて前処理する点に注意してください。
+    動画を画像に分割しているため、分割された画像たちをまとめて前処理する点に注意。
     """
 
     def __init__(self, resize, crop_size, mean, std):
