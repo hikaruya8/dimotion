@@ -180,10 +180,11 @@ def get_label_id_dictionary(label_dicitionary_path):
 
         # 1行ずつ読み込み、辞書型変数に追加します
         for row in reader:
+            # import pdb;pdb.set_trace()
             label_id_dict.setdefault(
-                row["class_label"], int(row["label_id"])-1)
+                row["Utterance"], (row["Emotion"]))
             id_label_dict.setdefault(
-                int(row["label_id"])-1, row["class_label"])
+                (row["Emotion"]), row["Utterance"])
 
     return label_id_dict,  id_label_dict
 
