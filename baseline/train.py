@@ -9,6 +9,7 @@ import pickle
 
 
 def __init__(self, path, n_classes, train=True):
-
+    if n_classes == 3:
+        self.videoIDs
 
 
