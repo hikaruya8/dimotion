@@ -1,3 +1,6 @@
 dimotion.sublime-project
 dimotion.sublime-workspace
 /MELD/
+/laughter-detection/*
+!/laughter-detection/make_laugh_folder.sh
+!/laughter-detection/requirements.txt
