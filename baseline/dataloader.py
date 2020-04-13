@@ -13,7 +13,9 @@ import pickle
             self.videoIDs, self.videoSpeakers, _, self.videoText,\
             self.videoAudio, self.videoSentence, self.trainVid,\
             self.testVid, self.videoLabels = pickle.load(open(path, 'rb'))
+            # label index mapping = {'neutral': 0, 'positive': 1, 'negative': 2}
         elif n_classes == 7:
             self.videoIDs, self.videoSpeakers, self.videoLabels, self.videoText,\
             self.videoAudio, self.videoSentence, self.trainVid,\
             self.testVid, _ = pickle.load(open(path, 'rb'))
+         # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
