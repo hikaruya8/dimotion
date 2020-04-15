@@ -6,6 +6,7 @@ from torchtext import datasets
 from torchtext.vacab import GloVe
 import torch.nn as nn
 import pickle
+import pandas as pd
 
 
 class MELDDataset(Dataset): #make Dataset of MELD
@@ -24,5 +25,24 @@ class MELDDataset(Dataset): #make Dataset of MELD
          self.keys = [x for x in (self.trainVid if train else self.testVid)] #divide trainVid & testVid
          self.len = len(self.keys) # the number of Vid
 
-    def __getitem__():
+    def __len__(self):
+        return self.len  # num of sample
+
+    def __getitem__(self, index):
+        vid = self.keys[index]
+        return torch FloatTensor(self.videoText[vid]), \
+               torch.FloatTensor(self.videoAudio[vid]),\
+               torch.FloatTensor(self.videoSpeakers[vid]),\
+               torch.FloatTensor([1]*len(len(self.videoLabels[vid]))),\
+               torch.LongTensor(self.videoLabels[vid]),\
+               vid
+
+    def collate_fn(self, data):
+        dat = pd.DataFrame(data)
+        return [pad_sequence(dat[i]) if i<3 else pad_sequence(dat[i], True) if i<5 else dat[i].tolist() for i in dat] #collate data size
+
+
+
+
+
 
