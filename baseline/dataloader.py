@@ -8,6 +8,7 @@ import torch.nn as nn
 import pickle
 
 
+class MELDDataset(Dataset): #make Dataset of MELD
     def __init__(self, path, n_classes, train=True):
         if n_classes == 3:
             self.videoIDs, self.videoSpeakers, _, self.videoText,\
@@ -19,3 +20,9 @@ import pickle
             self.videoAudio, self.videoSentence, self.trainVid,\
             self.testVid, _ = pickle.load(open(path, 'rb'))
          # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+
+         self.keys = [x for x in (self.trainVid if train else self.testVid)] #divide trainVid & testVid
+         self.len = len(self.keys) # the number of Vid
+
+    def __getitem__():
+
