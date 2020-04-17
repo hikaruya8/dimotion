@@ -1,10 +1,6 @@
 import torch
-import torchvision
-import torchtext
-from torchtext import data
-from torchtext import datasets
-from torchtext.vacab import GloVe
-import torch.nn as nn
+from torch.utils.data import Dataset
+from torch.nn.utils.rnn import pad_sequence
 import pickle
 import pandas as pd
 
