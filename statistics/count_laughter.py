@@ -18,6 +18,7 @@ with open ('../DialogueRNN/DialogueRNN_features/MELD_features/MELD_features_raw.
 sentence_lists = list(video_sentences.values())
 emotion_label_lists = list(emotion_labels.values())
 sentiment_label_lists = list(sentiment_labels.values())
+sentiment_label_lists_np = np.array(sentiment_label_lists)
 
 # test
 # print(sentence_lists[0])
@@ -37,8 +38,58 @@ def functor(f, l):
     return f(l)
 
 laughter_index= functor(int, laughter_index_str)
-print(laughter_index)
 
+laughter_index_np = np.array(laughter_index)
+
+# print(sentiment_label_lists[0])
+sentiment_index2 = []
+for l in laughter_index:
+    sentiment_index = sentiment_label_lists[l[0]-1]
+    try:
+        sentiment_index2.append(sentiment_index[l[1]])
+    except IndexError:
+        continue
+
+emotion_index2 = []
+for l in laughter_index:
+    emotion_index = emotion_label_lists[l[0]-1]
+    try:
+        emotion_index2.append(emotion_index[l[1]])
+    except IndexError:
+        continue
+
+# print(laughter_index[0][0]-1)
+# print(sentiment_index2)
+# print(len(sentiment_index2))
+
+# neutral = sentiment_index2.count(0)
+# positive = sentiment_index2.count(1)
+# negative = sentiment_index2.count(2)
+
+# print(neutral, positive, negative)
+# X = np.array(['neutral', 'positive', 'negative'])
+# Y = np.array([neutral, positive, negative])
+# plt.bar(X,Y)
+# plt.show()
+
+
+# emotion
+print(emotion_index2)
+# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+neutral = emotion_index2.count(0)
+surprise = emotion_index2.count(1)
+fear = emotion_index2.count(2)
+sadness = emotion_index2.count(3)
+joy = emotion_index2.count(4)
+disgust = emotion_index2.count(5)
+anger = emotion_index2.count(6)
+
+print(neutral, surprise, fear, sadness, joy, disgust, anger)
+
+X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
+Y = np.array([neutral, surprise, fear, sadness, joy, disgust, anger])
+plt.bar(X,Y)
+plt.show()
 
 
 # for l in laughter_index:
