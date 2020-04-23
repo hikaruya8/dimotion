@@ -34,19 +34,22 @@ sentiment_label_lists_np = np.array(sentiment_label_lists)
 laughter_file_path = glob.glob(detected_folder + '*/laugh_0.wav')
 laughter_file = [os.path.basename(os.path.dirname(l)) for l in laughter_file_path]
 laughter_index = [l.replace('dia', '').replace('utt','').split('_', 1) for l in laughter_file]
-laughter_index = functor(int, laughter_index)  # laughter_index = [utterance_index, sentence_index in utterance]
+laughter_index = functor(int, laughter_index)  # laughter_index = [dialogue_index, utterance_index in dialogue]
+laughter_index= sorted(laughter_index, key=lambda x: x[0])
 laughter_index_np = np.array(laughter_index)
 
 import pdb;pdb.set_trace()
-
 # print(sentiment_label_lists[0])
 sentiment_index2 = []
-for l in laughter_index:
-    sentiment_index = sentiment_label_lists[l[0]-1]
+for i, l in enumerate(laughter_utterance_index):
+    sentiment_index = sentiment_label_lists[l-1]
     try:
-        sentiment_index2.append(sentiment_index[l[1]])
+        sentiment_index2.append(sentiment_index[l])
     except IndexError:
         continue
+
+    # import pdb;pdb.set_trace()
+
 
 emotion_index2 = []
 for l in laughter_index:
