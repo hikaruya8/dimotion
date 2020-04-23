@@ -10,12 +10,13 @@ detected_folder = '../laughter-detection/detected_train_lauthter/' # checked fol
 
 with open ('../DialogueRNN/DialogueRNN_features/MELD_features/MELD_features_raw.pkl', 'rb') as f:
     meld_features = pickle.load(f)
-    video_sentences = meld_features[5] #video sentences
+    video_utterances = meld_features[5]
     emotion_labels = meld_features[2]#emotion labels:{'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
     sentiment_labels = meld_features[8] #sentiment labels: {'neutral': 0, 'positive': 1, 'negative': 2}
+    import pdb;pdb.set_trace()
 
 # change to list
-sentence_lists = list(video_sentences.values())
+sentence_lists = list(video_utterances.values())
 emotion_label_lists = list(emotion_labels.values())
 sentiment_label_lists = list(sentiment_labels.values())
 sentiment_label_lists_np = np.array(sentiment_label_lists)
