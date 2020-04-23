@@ -4,6 +4,7 @@ import os
 import pickle
 import glob
 import re
+import pprint
 
 detected_folder = '../laughter-detection/detected_train_lauthter/' # checked folder if laughter is detected. it contains detected and also undeted folder
 # laughter_file = 'dia991_utt7/'
@@ -46,6 +47,7 @@ current_negative = 0
 previous_neutral = 0
 previous_positive = 0
 previous_negative = 0
+indexerror_sum = 0
 for i, l in enumerate(laughter_index):
     dia_sentiment_index = l[0]
     utt_sentiment_index = l[1]
@@ -62,6 +64,11 @@ for i, l in enumerate(laughter_index):
         else:
             pass
 
+        print('***NOT*** IndexEroor')
+        print("current_dialogue:\n{}".format(video_utterances[dia_sentiment_index]))
+        print('current_utterance:\n{}'.format(video_utterances[dia_sentiment_index][utt_sentiment_index]))
+        print("dia_sentiment_index:{}, utt_sentiment_index:{}, dia_sentiment_list:{}".format(dia_sentiment_index, utt_sentiment_index, dia_sentiment_list))
+        print('\n')
         # check previous sentiment
         if utt_sentiment_index > 0:
             previous_utt_sentiment = dia_sentiment_list[utt_sentiment_index-1]
@@ -79,10 +86,13 @@ for i, l in enumerate(laughter_index):
             pass
 
     except IndexError:
+        indexerror_sum += 1
         print('IndexError')
-        print("dia_sentiment_index:{}, utt_sentiment_index:{}, dia_sentiment_list:{}, ".format(dia_sentiment_index, utt_sentiment_index, dia_sentiment_list))
+        print('current_dialogue:\n{}'.format(video_utterances[dia_sentiment_index]))
+        print("dia_sentiment_index:{}, utt_sentiment_index:{}, dia_sentiment_list:{} ".format(dia_sentiment_index, utt_sentiment_index, dia_sentiment_list))
 
 print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(current_neutral, current_positive, current_negative))
+print("IndexError_SUM:{}".format(indexerror_sum))
 X = np.array(['current_neutral', 'current_positive', 'current_negative'])
 Y = np.array([current_neutral, current_positive, current_negative])
 plt.bar(X,Y)
