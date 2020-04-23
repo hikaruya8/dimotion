@@ -13,30 +13,34 @@ with open ('../DialogueRNN/DialogueRNN_features/MELD_features/MELD_features_raw.
     video_utterances = meld_features[5]
     emotion_labels = meld_features[2]#emotion labels:{'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
     sentiment_labels = meld_features[8] #sentiment labels: {'neutral': 0, 'positive': 1, 'negative': 2}
-    import pdb;pdb.set_trace()
-
-# change to list
-sentence_lists = list(video_utterances.values())
-emotion_label_lists = list(emotion_labels.values())
-sentiment_label_lists = list(sentiment_labels.values())
-sentiment_label_lists_np = np.array(sentiment_label_lists)
-
-# test
-# print(sentence_lists[0])
-# print(emotion_label_lists[0])
-
-laughter_file_path = glob.glob(detected_folder + '*/laugh_0.wav')
-laughter_file = [os.path.basename(os.path.dirname(l)) for l in laughter_file_path]
-
-# get detected laughter index
-regex = re.compile('\d+')
-laughter_index_str = [regex.findall(l) for lf in laughter_file for l in lf.splitlines()]
 
 def functor(f, l):
   if isinstance(l,list):
     return [functor(f,i) for i in l]
   else:
     return f(l)
+
+# change to list
+utterance_lists = list(video_utterances.values())
+emotion_label_lists = list(emotion_labels.values())
+sentiment_label_lists = list(sentiment_labels.values())
+sentiment_label_lists_np = np.array(sentiment_label_lists)
+
+# test
+# print(utterance_lists[0])
+# print(emotion_label_lists[0])
+
+laughter_file_path = glob.glob(detected_folder + '*/laugh_0.wav')
+laughter_file = [os.path.basename(os.path.dirname(l)) for l in laughter_file_path]
+laughter_file_index = [l.replace('dia', '').replace('utt','').split('_', 1) for l in laughter_file]
+laughter_file_index = functor(int, laughter_file_index)  # laughter_file_index = [utterance_index, sentence_index in utterance]
+
+import pdb;pdb.set_trace()
+
+# get detected laughter index
+regex = re.compile('\d+')
+laughter_index_str = [regex.findall(l) for lf in laughter_file for l in lf.splitlines()]
+
 
 laughter_index= functor(int, laughter_index_str)
 
