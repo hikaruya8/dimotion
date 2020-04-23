@@ -38,26 +38,71 @@ laughter_index = functor(int, laughter_index)  # laughter_index = [dialogue_inde
 laughter_index= sorted(laughter_index, key=lambda x: x[0])
 laughter_index_np = np.array(laughter_index)
 
-import pdb;pdb.set_trace()
-# print(sentiment_label_lists[0])
-sentiment_index2 = []
-for i, l in enumerate(laughter_utterance_index):
-    sentiment_index = sentiment_label_lists[l-1]
+
+# hold current utterance sentiment & previous utterance sentiment
+current_neutral = 0
+current_positive = 0
+current_negative = 0
+previous_neutral = 0
+previous_positive = 0
+previous_negative = 0
+for i, l in enumerate(laughter_index):
+    dia_sentiment_index = l[0]
+    utt_sentiment_index = l[1]
+    dia_sentiment_list = sentiment_label_lists[l[0]]
     try:
-        sentiment_index2.append(sentiment_index[l])
+        current_utt_sentiment = dia_sentiment_list[utt_sentiment_index]
+
+        if current_utt_sentiment == 0:
+            current_neutral += 1
+        elif current_utt_sentiment == 1:
+            current_positive += 1
+        elif current_utt_sentiment == 2:
+            current_negative += 1
+        else:
+            pass
+
+        # check previous sentiment
+        if utt_sentiment_index > 0:
+            previous_utt_sentiment = dia_sentiment_list[utt_sentiment_index-1]
+
+            if previous_utt_sentiment == 0:
+                previous_neutral += 1
+            elif previous_utt_sentiment == 1:
+                previous_positive += 1
+            elif previous_utt_sentiment == 2:
+                previous_negative += 1
+            else:
+                pass
+
+        else:
+            pass
+
     except IndexError:
-        continue
+        print('IndexError')
+        print("dia_sentiment_index:{}, utt_sentiment_index:{}, dia_sentiment_list:{}, ".format(dia_sentiment_index, utt_sentiment_index, dia_sentiment_list))
+
+print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(current_neutral, current_positive, current_negative))
+X = np.array(['current_neutral', 'current_positive', 'current_negative'])
+Y = np.array([current_neutral, current_positive, current_negative])
+plt.bar(X,Y)
+plt.show()
+
+    # try:
+    #     sentiment_index2.append(sentiment_index[l])
+    # except IndexError:
+    #     continue
 
     # import pdb;pdb.set_trace()
 
 
-emotion_index2 = []
-for l in laughter_index:
-    emotion_index = emotion_label_lists[l[0]-1]
-    try:
-        emotion_index2.append(emotion_index[l[1]])
-    except IndexError:
-        continue
+# emotion_index2 = []
+# for l in laughter_index:
+#     emotion_index = emotion_label_lists[l[0]-1]
+#     try:
+#         emotion_index2.append(emotion_index[l[1]])
+#     except IndexError:
+#         continue
 
 # print(laughter_index[0][0]-1)
 # print(sentiment_index2)
@@ -75,22 +120,22 @@ for l in laughter_index:
 
 
 # emotion
-print(emotion_index2)
-# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
-neutral = emotion_index2.count(0)
-surprise = emotion_index2.count(1)
-fear = emotion_index2.count(2)
-sadness = emotion_index2.count(3)
-joy = emotion_index2.count(4)
-disgust = emotion_index2.count(5)
-anger = emotion_index2.count(6)
+# print(emotion_index2)
+# # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+# neutral = emotion_index2.count(0)
+# surprise = emotion_index2.count(1)
+# fear = emotion_index2.count(2)
+# sadness = emotion_index2.count(3)
+# joy = emotion_index2.count(4)
+# disgust = emotion_index2.count(5)
+# anger = emotion_index2.count(6)
 
-print(neutral, surprise, fear, sadness, joy, disgust, anger)
+# print(neutral, surprise, fear, sadness, joy, disgust, anger)
 
-X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
-Y = np.array([neutral, surprise, fear, sadness, joy, disgust, anger])
-plt.bar(X,Y)
-plt.show()
+# X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
+# Y = np.array([neutral, surprise, fear, sadness, joy, disgust, anger])
+# plt.bar(X,Y)
+# plt.show()
 
 
 # for l in laughter_index:
