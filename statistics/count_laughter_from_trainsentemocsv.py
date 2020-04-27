@@ -100,31 +100,17 @@ print("IndexError_SUM:{}".format(indexerror_sum))
 X = np.array(['current_neutral', 'current_positive', 'current_negative'])
 Y = np.array([current_neutral, current_positive, current_negative])
 plt.title('Current_Sentiment')
+
 plt.bar(X,Y)
 plt.show()
 
+print("previous_neutral:{} \n previous_positive:{}, \n previous_negarive:{}".format(previous_neutral, previous_positive, previous_negative))
+X = np.array(['previous_neutral', 'previous_positive', 'previous_negative'])
+Y = np.array([previous_neutral, previous_positive, previous_negative])
+plt.title('Previous_Sentiment')
+plt.bar(X,Y)
+plt.show()
 
-# emotion_index2 = []
-# for l in laughter_index:
-#     emotion_index = emotion_label_lists[l[0]-1]
-#     try:
-#         emotion_index2.append(emotion_index[l[1]])
-#     except IndexError:
-#         continue
-
-# print(laughter_index[0][0]-1)
-# print(sentiment_index2)
-# print(len(sentiment_index2))
-
-# neutral = sentiment_index2.count(0)
-# positive = sentiment_index2.count(1)
-# negative = sentiment_index2.count(2)
-
-# print(neutral, positive, negative)
-# X = np.array(['neutral', 'positive', 'negative'])
-# Y = np.array([neutral, positive, negative])
-# plt.bar(X,Y)
-# plt.show()
 
 
 # emotion
