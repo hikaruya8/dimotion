@@ -50,6 +50,18 @@ current_negative = 0
 previous_neutral = 0
 previous_positive = 0
 previous_negative = 0
+
+# emotion
+# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+current_neu = 0
+current_sur = 0
+current_fea = 0
+current_sad = 0
+current_joy = 0
+current_dis = 0
+current_ang = 0
+
+# check index error sum
 indexerror_sum = 0
 
 
@@ -94,66 +106,71 @@ for i, l in enumerate(laughter_index):
         indexerror_sum += 1
 
 
+# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+    try:
+        if current_emo == ['neutral']:
+            current_neu += 1
+        elif current_emo == ['surprise']:
+            current_sur += 1
+        elif current_emo == ['fear']:
+            current_fea += 1
+        elif current_emo == ['sadness']:
+            current_sad += 1
+        elif current_emo == ['joy']:
+            current_joy += 1
+        elif current_emo == ['disgust']:
+            current_dis += 1
+        elif current_emo == ['anger']:
+            current_ang += 1
+        else:
+            pass
 
-print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(current_neutral, current_positive, current_negative))
-print("IndexError_SUM:{}".format(indexerror_sum))
-X = np.array(['current_neutral', 'current_positive', 'current_negative'])
-Y = np.array([current_neutral, current_positive, current_negative])
-plt.title('Current_Sentiment')
+    except IndexError:
+        indexerror_sum += 1
 
-plt.bar(X,Y)
-plt.show()
 
-print("previous_neutral:{} \n previous_positive:{}, \n previous_negarive:{}".format(previous_neutral, previous_positive, previous_negative))
-X = np.array(['previous_neutral', 'previous_positive', 'previous_negative'])
-Y = np.array([previous_neutral, previous_positive, previous_negative])
-plt.title('Previous_Sentiment')
-plt.bar(X,Y)
-plt.show()
+
+def current_senti_graph():
+    print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(current_neutral, current_positive, current_negative))
+    print("IndexError_SUM:{}".format(indexerror_sum))
+    X = np.array(['current_neutral', 'current_positive', 'current_negative'])
+    Y = np.array([current_neutral, current_positive, current_negative])
+    plt.title('Current_Sentiment')
+
+    plt.bar(X,Y)
+    plt.show()
+
+def previous_senti_graph():
+    print("previous_neutral:{} \n previous_positive:{}, \n previous_negarive:{}".format(previous_neutral, previous_positive, previous_negative))
+    X = np.array(['previous_neutral', 'previous_positive', 'previous_negative'])
+    Y = np.array([previous_neutral, previous_positive, previous_negative])
+    plt.title('Previous_Sentiment')
+    plt.bar(X,Y)
+    plt.show()
 
 
 
 # emotion
-# print(emotion_index2)
-# # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
-# neutral = emotion_index2.count(0)
-# surprise = emotion_index2.count(1)
-# fear = emotion_index2.count(2)
-# sadness = emotion_index2.count(3)
-# joy = emotion_index2.count(4)
-# disgust = emotion_index2.count(5)
-# anger = emotion_index2.count(6)
+# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
 
-# print(neutral, surprise, fear, sadness, joy, disgust, anger)
+def current_emo_graph():
+    print('current_neutral:{}, current_surprise:{}, current_fear:{}, current_sadness:{}, current_joy:{}, current_disgust:{}, current_anger:{}'.format(current_neu, current_sur, current_fea, current_sad, current_joy, current_dis, current_ang))
+    X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
+    Y = np.array([current_neu, current_sur, current_fea, current_sad, current_joy, current_dis, current_ang])
+    plt.title('Current_Emotion')
+    plt.bar(X,Y)
+    plt.show()
 
-# X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
-# Y = np.array([neutral, surprise, fear, sadness, joy, disgust, anger])
-# plt.bar(X,Y)
-# plt.show()
+def previous_emo_graph():
+    print('pre_neutral:{}, pre_surprise:{}, pre_fear:{}, pre_sadness:{}, pre_joy:{}, pre_disgust:{}, pre:{}'.format())
+    X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
+    Y = np.array([])
+    plt.title('Current_Emotion')
+    plt.bar(X,Y)
+    plt.show()
 
+if __name__ == '__main__':
+    # current_senti_graph()
+    # previous_senti_graph()
+    current_emo_graph()
 
-# for l in laughter_index:
-#     if 9 in l[0]:
-#         print(l)
-# print(laughter_index)
-# for lf in laughter_file:
-#     for l in lf.splitlines():
-#       match = regex.findall(l)
-#       print(match)
-
-# laughter_file_index = {}
-# for l in laughter_file_path:
-#     print(os.path.basename(os.path.dirname(l)))
-#     print(laughter_file)
-
-# check if detected_train_lauthter_file in folder:
-# if os.path.isfile(detected_laughter_folder + laughter_file + '/laugh_0.wav'):
-#     print(laughter_file)
-# else:
-#     print(False)
-
-# X = [np.random.rand(100) * 10]
-# Y = [np.random.rand(100) * 10]
-# # 散布図を描画する
-# plt.scatter(X, Y)
-# plt.show()
