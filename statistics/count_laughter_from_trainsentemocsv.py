@@ -136,6 +136,8 @@ for i, l in enumerate(laughter_index):
                 pre_fea += 1
             elif pre_emo == ['sadness']:
                 pre_sad += 1
+            elif pre_emo == ['joy']:
+                pre_joy += 1
             elif pre_emo == ['disgust']:
                 pre_dis += 1
             elif pre_emo == ['anger']:
