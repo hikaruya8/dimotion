@@ -11,9 +11,11 @@ detected_folder = '../laughter-detection/detected_train_lauthter/' # checked fol
 
 with open ('../DialogueRNN/DialogueRNN_features/MELD_features/MELD_features_raw.pkl', 'rb') as f:
     meld_features = pickle.load(f)
+    video_ids = meld_features[0] # e.g. video_ids[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     video_utterances = meld_features[5]
     emotion_labels = meld_features[2]#emotion labels:{'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
     sentiment_labels = meld_features[8] #sentiment labels: {'neutral': 0, 'positive': 1, 'negative': 2}
+
 
 def functor(f, l): # change str to int function
   if isinstance(l,list):
@@ -37,7 +39,6 @@ laughter_file = [os.path.basename(os.path.dirname(l)) for l in laughter_file_pat
 laughter_index = [l.replace('dia', '').replace('utt','').split('_', 1) for l in laughter_file]
 laughter_index = functor(int, laughter_index)  # laughter_index = [dialogue_index, utterance_index in dialogue]
 laughter_index= sorted(laughter_index, key=lambda x: x[0])
-laughter_index_np = np.array(laughter_index)
 
 
 # hold current utterance sentiment & previous utterance sentiment
@@ -48,6 +49,7 @@ previous_neutral = 0
 previous_positive = 0
 previous_negative = 0
 indexerror_sum = 0
+
 for i, l in enumerate(laughter_index):
     dia_sentiment_index = l[0]
     utt_sentiment_index = l[1]
@@ -88,8 +90,15 @@ for i, l in enumerate(laughter_index):
     except IndexError:
         indexerror_sum += 1
         print('IndexError')
+        print('laughter_index:{}'.format(l))
         print('current_dialogue:\n{}'.format(video_utterances[dia_sentiment_index]))
         print("dia_sentiment_index:{}, utt_sentiment_index:{}, dia_sentiment_list:{} ".format(dia_sentiment_index, utt_sentiment_index, dia_sentiment_list))
+        print('\n')
+
+    if i > 300:
+        break
+
+import pdb;pdb.set_trace()
 
 print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(current_neutral, current_positive, current_negative))
 print("IndexError_SUM:{}".format(indexerror_sum))
