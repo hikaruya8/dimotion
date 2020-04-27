@@ -16,6 +16,7 @@ with open ('../DialogueRNN/DialogueRNN_features/MELD_features/MELD_features_raw.
     emotion_labels = meld_features[2]#emotion labels:{'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
     sentiment_labels = meld_features[8] #sentiment labels: {'neutral': 0, 'positive': 1, 'negative': 2}
 
+    import pdb; pdb.set_trace()
 
 def functor(f, l): # change str to int function
   if isinstance(l,list):

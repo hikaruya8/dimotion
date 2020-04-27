@@ -99,6 +99,7 @@ print("current_neutral:{} \ncurrent_positive:{}, \ncurrent_negative:{}".format(c
 print("IndexError_SUM:{}".format(indexerror_sum))
 X = np.array(['current_neutral', 'current_positive', 'current_negative'])
 Y = np.array([current_neutral, current_positive, current_negative])
+plt.title('Current_Sentiment')
 plt.bar(X,Y)
 plt.show()
 
