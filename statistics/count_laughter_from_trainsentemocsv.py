@@ -53,6 +53,7 @@ previous_negative = 0
 
 # emotion
 # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
+# current emotion sum
 current_neu = 0
 current_sur = 0
 current_fea = 0
@@ -60,6 +61,15 @@ current_sad = 0
 current_joy = 0
 current_dis = 0
 current_ang = 0
+
+# previous emotion sum
+pre_neu = 0
+pre_sur = 0
+pre_fea = 0
+pre_sad = 0
+pre_joy = 0
+pre_dis = 0
+pre_ang = 0
 
 # check index error sum
 indexerror_sum = 0
@@ -83,31 +93,7 @@ for i, l in enumerate(laughter_index):
         else:
             pass
 
-        # check previous sentiment
-        if utt_index > 0:
-            previous_df =  df[(df['Dialogue_ID'] == dia_index) & (df['Utterance_ID'] == (utt_index-1))]
-            pre_utt = previous_df['Utterance'].values.tolist()
-            pre_senti = previous_df['Sentiment'].values.tolist()
-            pre_emo = previous_df['Emotion'].values.tolist()
-
-            if pre_senti == ['neutral']:
-                previous_neutral += 1
-            elif pre_senti == ['positive']:
-                previous_positive += 1
-            elif pre_senti== ['negative']:
-                previous_negative += 1
-            else:
-                pass
-
-        else:
-            pass
-
-    except IndexError:
-        indexerror_sum += 1
-
-
-# label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
-    try:
+        # label index mapping = {'neutral': 0, 'surprise': 1, 'fear': 2, 'sadness': 3, 'joy': 4, 'disgust': 5, 'anger': 6}
         if current_emo == ['neutral']:
             current_neu += 1
         elif current_emo == ['surprise']:
@@ -125,8 +111,48 @@ for i, l in enumerate(laughter_index):
         else:
             pass
 
+        # check previous sentiment
+        if utt_index > 0:
+            previous_df =  df[(df['Dialogue_ID'] == dia_index) & (df['Utterance_ID'] == (utt_index-1))]
+            pre_utt = previous_df['Utterance'].values.tolist()
+            pre_senti = previous_df['Sentiment'].values.tolist()
+            pre_emo = previous_df['Emotion'].values.tolist()
+
+            if pre_senti == ['neutral']:
+                previous_neutral += 1
+            elif pre_senti == ['positive']:
+                previous_positive += 1
+            elif pre_senti== ['negative']:
+                previous_negative += 1
+            else:
+                pass
+
+         # check previous emotion
+            if pre_emo == ['neutral']:
+                pre_neu += 1
+            elif pre_emo == ['surprise']:
+                pre_sur += 1
+            elif pre_emo== ['fear']:
+                pre_fea += 1
+            elif pre_emo == ['sadness']:
+                pre_sad += 1
+            elif pre_emo == ['disgust']:
+                pre_dis += 1
+            elif pre_emo == ['anger']:
+                pre_ang += 1
+            else:
+                pass
+
+        else:
+            pass
+
     except IndexError:
         indexerror_sum += 1
+
+
+    except IndexError:
+        indexerror_sum += 1
+        print('***IndexEroor***')
 
 
 
@@ -162,15 +188,16 @@ def current_emo_graph():
     plt.show()
 
 def previous_emo_graph():
-    print('pre_neutral:{}, pre_surprise:{}, pre_fear:{}, pre_sadness:{}, pre_joy:{}, pre_disgust:{}, pre:{}'.format())
+    print('pre_neutral:{}, pre_surprise:{}, pre_fear:{}, pre_sadness:{}, pre_joy:{}, pre_disgust:{}, pre_anger:{}'.format(pre_neu, pre_sur, pre_fea, pre_sad, pre_joy, pre_dis, pre_ang))
     X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
-    Y = np.array([])
-    plt.title('Current_Emotion')
+    Y = np.array([pre_neu, pre_sur, pre_fea, pre_sad, pre_joy, pre_dis, pre_ang])
+    plt.title('Previous_Emotion')
     plt.bar(X,Y)
     plt.show()
 
 if __name__ == '__main__':
     # current_senti_graph()
     # previous_senti_graph()
-    current_emo_graph()
+    # current_emo_graph()
+    previous_emo_graph()
 
