@@ -165,7 +165,7 @@ def current_senti_graph():
     Y = np.array([current_neutral, current_positive, current_negative])
     plt.title('Current_Sentiment')
 
-    plt.bar(X,Y)
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.show()
 
 def previous_senti_graph():
@@ -173,7 +173,7 @@ def previous_senti_graph():
     X = np.array(['previous_neutral', 'previous_positive', 'previous_negative'])
     Y = np.array([previous_neutral, previous_positive, previous_negative])
     plt.title('Previous_Sentiment')
-    plt.bar(X,Y)
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.show()
 
 
@@ -186,7 +186,7 @@ def current_emo_graph():
     X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
     Y = np.array([current_neu, current_sur, current_fea, current_sad, current_joy, current_dis, current_ang])
     plt.title('Current_Emotion')
-    plt.bar(X,Y)
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.show()
 
 def previous_emo_graph():
@@ -194,7 +194,7 @@ def previous_emo_graph():
     X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
     Y = np.array([pre_neu, pre_sur, pre_fea, pre_sad, pre_joy, pre_dis, pre_ang])
     plt.title('Previous_Emotion')
-    plt.bar(X,Y)
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.show()
 
 if __name__ == '__main__':
