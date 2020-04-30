@@ -156,6 +156,23 @@ for i, l in enumerate(laughter_index):
         indexerror_sum += 1
         print('***IndexEroor***')
 
+def whole_senti_graph():
+    [neutral, positive, negative] = [4710, 2334, 2945]
+    X = np.array(['neutral', 'positive', 'negative'])
+    Y = np.array([neutral, positive, negative])
+    plt.title('Sentiment in Whole Utterance')
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
+    plt.show()
+
+def whole_emo_graph():
+    [neutral, surprise, fear, sadness, joy, disgust, anger] = [4710, 1205, 268, 683, 1743, 271, 1109]
+    X = np.array(['neutral', 'surprise', 'fear', 'sadness', 'joy', 'disgust', 'anger'])
+    Y = np.array([neutral, surprise, fear, sadness, joy, disgust, anger])
+    plt.title('Emotion in Whole Utterances')
+    plt.pie(Y, labels=X,  counterclock=False, startangle=90, autopct="%1.1f%%")
+    plt.show()
+
+
 
 
 def current_senti_graph():
@@ -201,5 +218,7 @@ if __name__ == '__main__':
     # current_senti_graph()
     # previous_senti_graph()
     # current_emo_graph()
-    previous_emo_graph()
+    # previous_emo_graph()
+    whole_senti_graph()
+    # whole_emo_graph()
 
